@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './Components/Home/HomePage';
 import RegisterPage from './Components/Register/RegisterPage';
 import LoginPage from './Components/Login/LoginPage';
-import Dashboard from './Components/Dashboard/DashboardPage';
+import DashboardPage from './Components/Dashboard/DashboardPage';
 import './index.css';
 
 ReactDOM.render(
@@ -13,7 +13,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/" element={<HomePage />} />
       </Routes>
     </Router>

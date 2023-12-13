@@ -11,7 +11,7 @@
   width: 100%;
   height: 100%;
   z-index: -1;
-  background: url('C:/Users/ushna/OneDrive/Desktop/image1.jpeg') center/cover no-repeat fixed;
+  background: url('C:\Users\ushna\OneDrive\Documents\Semester 5\Web Engg\Project\WebEnggProject-HospitalManagementSystem-PatientPanelFrontend\medic-master\public\images\image1.jpeg') center/cover no-repeat fixed;
   filter: blur(8px);
 }
 

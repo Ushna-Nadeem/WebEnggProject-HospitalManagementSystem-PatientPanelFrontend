@@ -1,0 +1,103 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Styling for the blurred overlay above the background image */
+/* Yeh ab har page par apply hoga that is redirected from Dashboard such as Appointments, Prescriptions etc. */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: url('C:\Users\ushna\OneDrive\Documents\Semester 5\Web Engg\Project\WebEnggProject-HospitalManagementSystem-PatientPanelFrontend\medic-master\public\images\image1.jpeg') center/cover no-repeat fixed;
+  filter: blur(8px);
+}
+
+/* Styling for the header bar above the dashboard */
+.header-bar-dashboard {
+  background-color: burlywood;
+  color: maroon;
+  padding: 15px;
+  text-align: right;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+/* Styling for the dashboard container */
+.dashboard-container {
+  max-width: 700px;
+  margin: 100px auto;
+  padding: 50px;
+  background-color: burlywood;
+  border: 1px solid grey;
+  border-radius: 20px;
+  box-shadow: 0 0 20px grey;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+/* Styling for the logout button */
+.logout-button {
+  background-color: maroon;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Styling for the patient dashboard title */
+h2 {
+  text-align: center;
+  margin-top: 15px;
+  color: maroon;
+}
+
+/* Styling for the dashboard options */
+.dashboard-options {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 60px;
+  margin-left: 15px;
+  gap: 28px;
+}
+
+/* Styling for individual dashboard options */
+.dashboard-options a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+  background-color: maroon;
+  color: white;
+  font-weight: bold;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-options a:hover {
+  background-color: brown;
+}
+
+/* Styling for the option icons */
+.option-icon {
+  margin-bottom: 10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
