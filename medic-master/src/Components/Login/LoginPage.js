@@ -33,6 +33,9 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (response.ok) {
+        // Store the token in local storage upon successful login
+        localStorage.setItem('token', data.token);
+
         // Redirect to the dashboard upon successful login
         navigate('/dashboard');
       } else {
