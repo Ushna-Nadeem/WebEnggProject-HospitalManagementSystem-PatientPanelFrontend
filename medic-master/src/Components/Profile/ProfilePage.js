@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Profile.css';
+import './ProfilePage.css';
 
 const Profile = () => {
   const [patientProfile, setPatientProfile] = useState({});

@@ -20,8 +20,8 @@ body::before {
 
 /* Styling for the header bar above the dashboard */
 .header-bar-dashboard {
-  background-color: burlywood;
-  color: maroon;
+  background-color: rgb(224, 192, 151);
+  color: rgb(45, 36, 36);
   padding: 15px;
   text-align: right;
   position: fixed;
@@ -36,19 +36,23 @@ body::before {
   max-width: 700px;
   margin: 100px auto;
   padding: 50px;
-  background-color: burlywood;
-  border: 1px solid grey;
+  background-color: rgb(224, 192, 151);
+  border: 1px solid rgb(45, 36, 36);
   border-radius: 20px;
-  box-shadow: 0 0 20px grey;
+  box-shadow: 0 0 20px rgb(45, 36, 36);
   overflow: hidden;
   position: relative;
   z-index: 0;
 }
 
+.dashboard-container button:hover{
+  background-color: rgb(184, 92, 56);
+}
+
 /* Styling for the logout button */
 .logout-button {
   background-color: maroon;
-  color: white;
+  color: whitesmoke;
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
@@ -60,7 +64,7 @@ body::before {
 h2 {
   text-align: center;
   margin-top: 15px;
-  color: maroon;
+  color: rgb(45, 36, 36);
 }
 
 /* Styling for the dashboard options */
@@ -79,8 +83,8 @@ h2 {
   flex-direction: column;
   align-items: center;
   margin-bottom: 50px;
-  background-color: maroon;
-  color: white;
+  background-color: rgb(92, 61, 46);
+  color: whitesmoke;
   font-weight: bold;
   padding: 15px;
   border: none;
@@ -91,7 +95,7 @@ h2 {
 }
 
 .dashboard-options a:hover {
-  background-color: brown;
+  background-color: rgb(184, 92, 56);
 }
 
 /* Styling for the option icons */
@@ -100,4 +104,42 @@ h2 {
   width: 60px;
   height: 60px;
   border-radius: 50%;
+}
+
+/* Responsive Styling */
+@media only screen and (max-width: 768px) {
+  .header-bar-dashboard {
+    padding: 10px;
+  }
+
+  .dashboard-container {
+    max-width: 90%;
+    margin: 80px auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgb(45, 36, 36);
+  }
+
+  .logout-button {
+    padding: 8px 12px;
+  }
+
+  h2 {
+    margin-top: 10px;
+  }
+
+  .dashboard-options {
+    flex-direction: column;
+    margin-top: 30px;
+    margin-left: 0;
+  }
+
+  .dashboard-options a {
+    margin-bottom: 20px;
+  }
+
+  .option-icon {
+    width: 40px;
+    height: 40px;
+  }
 }

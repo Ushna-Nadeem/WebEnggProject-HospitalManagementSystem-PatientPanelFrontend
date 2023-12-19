@@ -43,13 +43,13 @@ const DashboardPage = () => {
           />
           Prescriptions
         </Link>
-        <Link to="/dashboard/bills">
+        <Link to="/dashboard/testresults">
           <img
             className="option-icon"
-            src="\images\bills.jpeg"
-            alt="Bills"
+            src="\images\testresult.jpeg"
+            alt="Test Results"
           />
-          Bills
+          Test Results
         </Link>
         <Link to="/dashboard/payment">
           <img
@@ -57,7 +57,7 @@ const DashboardPage = () => {
             src="\images\payment.jpeg"
             alt="Payment"
           />
-          Payment
+          Bills Payment
         </Link>
       </div>
     </div>
