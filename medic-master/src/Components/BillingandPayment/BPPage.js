@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './BPPage.css';
 
@@ -19,11 +20,11 @@ const BillingPage = () => {
     cardExpiryMonth: '',
     cardExpiryYear: '',
   });
-
   const [paymentModalData, setPaymentModalData] = useState({
     showPaymentModal: false,
     selectedBillId: null,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -92,9 +93,10 @@ const BillingPage = () => {
               </>
             )}
             {!billing.isPaid && (
-              <>
-                <button onClick={() => handlePayWithCard(billing._id)}>Pay Bill</button>
-              </>
+            <>
+              <button onClick={() => handlePayWithStripe(billing._id)}>Pay via Stripe</button>
+              <button onClick={() => handlePayWithCard(billing._id)}>Pay via Card</button>
+            </>
             )}
           </li>
         ))}
@@ -125,11 +127,12 @@ const BillingPage = () => {
       cardExpiryMonth: '',
       cardExpiryYear: '',
     });
-
-    // Set the specific bill for which payment modal should be shown
+  
+    // Set the specific bill for which the Card payment modal should be shown
     setPaymentModalData({
       showPaymentModal: true,
       selectedBillId: billId,
+      paymentMethod: 'card',
     });
   };
 
@@ -138,26 +141,30 @@ const BillingPage = () => {
       const token = localStorage.getItem('token');
       const decodedToken = token ? JSON.parse(atob(token.split('.')[1])) : null;
       const patientId = decodedToken?.patientId;
-
+  
       const response = await axios.put(`http://localhost:3000/bills/payment/card/${patientId}`, {
         billIds: selectedBills,
         ...cardInfo,
       });
-
+  
       console.log(response.data);
-
+  
+      // Fetch updated bills after payment
+      fetchAllBills(patientId);
+  
+      // Fetch updated paid and outstanding bills
       fetchPaidBills(patientId);
       fetchOutstandingBills(patientId);
-
+  
       // Hide the payment modal after successful payment
       setPaymentModalData({
         showPaymentModal: false,
         selectedBillId: null,
       });
-
+  
       // Show the payment success message
       setPaymentSuccess(true);
-
+  
       // Hide the payment success message after a few seconds (adjust as needed)
       setTimeout(() => {
         setPaymentSuccess(false);
@@ -175,28 +182,27 @@ const BillingPage = () => {
     }));
   };
 
-  // Handle payment with Stripe using Elements
   const handleStripePayment = async (stripe, elements) => {
     try {
       const token = localStorage.getItem('token');
       const decodedToken = token ? JSON.parse(atob(token.split('.')[1])) : null;
       const patientId = decodedToken?.patientId;
-
+  
       // Ensure patientId is defined
       if (!patientId) {
         console.error('PatientId not found in the token.');
         return;
       }
-
+  
       // Get a reference to a mounted CardElement
       const cardElement = elements.getElement(CardElement);
-
+  
       // Create a PaymentMethod using the card information
       const { paymentMethod, error } = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
       });
-
+  
       if (error) {
         console.error('Error creating PaymentMethod:', error);
         // Handle error (show error message, etc.)
@@ -206,20 +212,22 @@ const BillingPage = () => {
           billIds: selectedBills,
           paymentMethodId: paymentMethod.id,
         });
-
-        // Handle the server response (update UI, show success message, etc.)
+  
         console.log(response.data);
 
+        // Fetch updated bills after payment
+        fetchAllBills(patientId);
+  
         // Fetch updated paid and outstanding bills
         fetchPaidBills(patientId);
         fetchOutstandingBills(patientId);
-
+  
         // Hide the payment modal after successful payment
         setPaymentModalData({
           showPaymentModal: false,
           selectedBillId: null,
         });
-
+  
         // Reset cardInfo state
         setCardInfo({
           cardLast4: '',
@@ -227,10 +235,10 @@ const BillingPage = () => {
           cardExpiryMonth: '',
           cardExpiryYear: '',
         });
-
+  
         // Show the payment success message
         setPaymentSuccess(true);
-
+  
         // Hide the payment success message after a few seconds (adjust as needed)
         setTimeout(() => {
           setPaymentSuccess(false);
@@ -241,6 +249,23 @@ const BillingPage = () => {
     }
   };
 
+  const handlePayWithStripe = (billId) => {
+    setSelectedBills([billId]);
+    setCardInfo({
+      cardLast4: '',
+      cardBrand: '',
+      cardExpiryMonth: '',
+      cardExpiryYear: '',
+    });
+  
+    // Set the specific bill for which the Stripe payment modal should be shown
+    setPaymentModalData({
+      showPaymentModal: true,
+      selectedBillId: billId,
+      paymentMethod: 'stripe',
+    });
+  };
+
   const closePaymentModal = () => {
     setPaymentModalData({
       showPaymentModal: false,
@@ -248,7 +273,19 @@ const BillingPage = () => {
     });
   };
 
+  const handleBackToDashboard = () => {
+    // Redirect to the dashboard
+    navigate('/dashboard');
+  };
+  
   return (
+    <div>
+      {/* Navbar with Back to Dashboard button */}
+      <nav className="profile-nav">
+        <button className="profile-back-button" onClick={handleBackToDashboard}>
+          Back to Dashboard
+        </button>
+      </nav>
     <div className="billing-container">
       <h2 className="billing-title">Bills</h2>
       <button className="billing-btn" onClick={handleViewOutstanding}>View Outstanding Bills</button>
@@ -261,7 +298,7 @@ const BillingPage = () => {
           {renderBillingInfo(outstandingBills)}
 
           {/* Payment Modal */}
-          {paymentModalData.showPaymentModal && viewOutstanding && (
+          {paymentModalData.showPaymentModal && viewOutstanding && paymentModalData.paymentMethod === 'card' && (
             <div className="billing-payment-modal">
               <div className="billing-payment-modal-content">
                 <span className="billing-payment-modal-close" onClick={closePaymentModal}>
@@ -303,7 +340,7 @@ const BillingPage = () => {
           )}
 
           {/* Payment Modal */}
-          {paymentModalData.showPaymentModal && viewOutstanding && (
+          {paymentModalData.showPaymentModal && viewOutstanding && paymentModalData.paymentMethod === 'stripe' && (
             <div className="billing-payment-modal">
               <div className="billing-payment-modal-content">
                 <span className="billing-payment-modal-close" onClick={closePaymentModal}>
@@ -343,6 +380,7 @@ const BillingPage = () => {
         </div>
       )}
     </div>
+    </div>
   );
 };
 
@@ -361,7 +399,6 @@ const PaymentForm = ({ handleStripePayment }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* Add your card input fields here */}
       <CardElement />
       <button type="submit">Pay</button>
     </form>
