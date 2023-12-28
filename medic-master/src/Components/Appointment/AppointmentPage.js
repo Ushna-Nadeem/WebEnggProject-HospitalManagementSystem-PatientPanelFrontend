@@ -4,17 +4,17 @@ import './AppointmentPage.css';
 
 const Appointment = () => {
   const [appointments, setAppointments] = useState([]);
+  const [appointmentHistory, setAppointmentHistory] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedAppointment, setSelectedAppointment] = useState(null); // Track the selected appointment
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
   const navigate = useNavigate();
 
-  // State for the appointment form
   const [appointmentForm, setAppointmentForm] = useState({
     doctorName: '',
     specialty: '',
     preferredDate: '',
     preferredTime: '',
-    appointmentType: 'Consultation',
+    appointmentType: '',
     reason: '',
     hasInsurance: false,
     emergencyContact: {
@@ -26,23 +26,19 @@ const Appointment = () => {
   // State to control the visibility of the modal
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Function to open the modal
   const openModal = () => {
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
   const showAppointmentDetails = (appointment) => {
-    // Set the selected appointment for detailed view
     setSelectedAppointment(appointment);
   };
 
   const closeAppointmentDetails = () => {
-    // Close the detailed view
     setSelectedAppointment(null);
   };
 
@@ -52,10 +48,10 @@ const Appointment = () => {
     const patientId = decodedToken?.patientId;
 
     if (patientId) {
-      // Fetch appointments using patientId
+      // Fetch appointments and history using patientId
       fetchAppointments(patientId);
+      fetchAppointmentHistory(patientId);
     } else {
-      // Handle the case when patientId is not available
       console.error('PatientId not found in the token.');
       setLoading(false);
     }
@@ -63,7 +59,6 @@ const Appointment = () => {
 
   const fetchAppointments = async (patientId) => {
     try {
-      // Fetch appointments using the patientId
       const response = await fetch(`http://localhost:3000/appointments/view/${patientId}`, {
         method: 'GET',
         headers: {
@@ -82,6 +77,26 @@ const Appointment = () => {
     } catch (error) {
       console.error('Error fetching appointments:', error);
       setLoading(false);
+    }
+  };
+
+  const fetchAppointmentHistory = async (patientId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/appointments/viewhistory/${patientId}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.ok) {
+        const historyData = await response.json();
+        setAppointmentHistory(historyData);
+      } else {
+        console.error('Error fetching appointment history:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching appointment history:', error);
     }
   };
 
@@ -176,13 +191,17 @@ const Appointment = () => {
       </nav>
 
       <h1 className="page-title">My Appointments</h1>
-      <button onClick={openModal} className="appointment-schedule-btn">Schedule Appointment</button>
-  
+      <button onClick={openModal} className="appointment-schedule-btn">
+        Schedule Appointment
+      </button>
+
       {/* Custom modal for booking appointment */}
       {isModalOpen && (
         <div className="appointment-modal">
           <div className="appointment-modal-content">
-            <span className="appointment-modal-close" onClick={closeModal}>&times;</span>
+            <span className="appointment-modal-close" onClick={closeModal}>
+              &times;
+            </span>
             <h2>Schedule Appointment</h2>
             <form>
               <label>
@@ -273,19 +292,23 @@ const Appointment = () => {
                 />
               </label>
 
-            <button type="button" onClick={submitAppointmentForm} className="appointment-btn">Schedule</button>
-          </form>
+              <button type="button" onClick={submitAppointmentForm} className="appointment-btn">Schedule</button>
+            </form>
+          </div>
         </div>
-      </div>
-    )}
+      )}
 
-    {selectedAppointment && (
-      // Detailed view of the selected appointment
-      <div className="appointment-modal">
-        <div className="appointment-modal-content">
-          <span className="appointment-modal-close" onClick={closeAppointmentDetails}>&times;</span>
-          <h2>Appointment Details</h2>
-            <p><strong>Doctor Name:</strong> {selectedAppointment.doctorName}</p>
+      {selectedAppointment && (
+        // Detailed view of the selected appointment
+        <div className="appointment-modal">
+          <div className="appointment-modal-content">
+            <span className="appointment-modal-close" onClick={closeAppointmentDetails}>
+              &times;
+            </span>
+            <h2>Appointment Details</h2>
+            <p>
+              <strong>Doctor Name:</strong> {selectedAppointment.doctorName}
+            </p>
             <p><strong>Specialty:</strong> {selectedAppointment.specialty}</p>
             <p><strong>Date:</strong> {selectedAppointment.preferredDate}</p>
             <p><strong>Time:</strong> {selectedAppointment.preferredTime}</p>
@@ -298,32 +321,64 @@ const Appointment = () => {
         </div>
       )}
 
-  {appointments.length === 0 ? (
-    <p>No upcoming scheduled appointments found.</p>
-  ) : (
-    <ul className="appointment-list">
-      {appointments.map((appointment) => (
-        <li className="appointment-item" key={appointment._id}>
-          <div className="appointment-details">
-            <span className="maroon-line"></span>
-            <strong>{appointment.doctorName}</strong> - {appointment.preferredDate} {appointment.preferredTime}
-            <span className="maroon-line"></span>
-          </div>
-          <div className="appointment-buttons">
-            {appointment.status === 'Scheduled' ? (
-              <>
-                <button onClick={() => cancelAppointment(appointment._id)} className="appointment-btn-cancel">Cancel Appointment</button>
-                <button onClick={() => showAppointmentDetails(appointment)} className="appointment-btn-details">View Appointment Details</button>
-              </>
-            ) : (
-              <span>Appointment {appointment.status}</span>
-            )}
-          </div>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+      {appointments.length === 0 ? (
+        <p>No upcoming scheduled appointments found.</p>
+      ) : (
+        <ul className="appointment-list">
+          {appointments.map((appointment) => (
+            <li className="appointment-item" key={appointment._id}>
+              <div className="appointment-details">
+                <span className="maroon-line"></span>
+                <strong>{appointment.doctorName}</strong> - {appointment.preferredDate} {appointment.preferredTime}
+                <span className="maroon-line"></span>
+              </div>
+              <div className="appointment-buttons">
+                {appointment.status === 'Scheduled' ? (
+                  <>
+                    <button onClick={() => cancelAppointment(appointment._id)} className="appointment-btn-cancel">Cancel Appointment</button>
+                    <button onClick={() => showAppointmentDetails(appointment)} className="appointment-btn-details">View Appointment Details</button>
+                  </>
+                ) : (
+                  <span>Appointment {appointment.status}</span>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {appointmentHistory.length === 0 ? (
+        <p>No appointment history found.</p>
+      ) : (
+        <div>
+          <h1 className="page-title">Appointment History</h1>
+          <ul className="appointment-list">
+            {appointmentHistory.map((appointment) => (
+              <li className="appointment-item" key={appointment._id}>
+                <div className="appointment-details">
+                  <span className="maroon-line"></span>
+                  <strong>{appointment.doctorName}</strong> - {appointment.preferredDate} {appointment.preferredTime}
+                  <span className="maroon-line"></span>
+                </div>
+                <div className="appointment-buttons">
+                  {appointment.status === 'Cancelled' ? (
+                    <span>Appointment {appointment.status}
+                    <button onClick={() => showAppointmentDetails(appointment)} className="appointment-btn-details">View Appointment Details</button>
+                    </span>
+                  ) : (
+                    <>
+                      <span>Appointment {appointment.status}
+                      <button onClick={() => showAppointmentDetails(appointment)} className="appointment-btn-details">View Appointment Details</button>
+                      </span>
+                    </>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
   );
 };
 

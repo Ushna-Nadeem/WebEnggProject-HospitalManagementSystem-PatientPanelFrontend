@@ -7,6 +7,9 @@ import LoginPage from './Components/Login/LoginPage';
 import DashboardPage from './Components/Dashboard/DashboardPage';
 import ProfilePage from './Components/Profile/ProfilePage';
 import AppointmentPage from './Components/Appointment/AppointmentPage';
+import PrescriptionPage from './Components/Prescription/PrescriptionPage';
+import TestResultPage from './Components/TestResult/TestResultPage';
+import BPPage from './Components/BillingandPayment/BPPage';
 import './index.css';
 
 ReactDOM.render(
@@ -18,6 +21,9 @@ ReactDOM.render(
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/dashboard/profile" element={<ProfilePage />} />
         <Route path="/dashboard/appointments" element={<AppointmentPage />} />
+        <Route path="/dashboard/prescriptions" element={<PrescriptionPage />} />
+        <Route path="/dashboard/testresults" element={<TestResultPage />} />
+        <Route path="/dashboard/billing&payment" element={<BPPage />} />
         <Route path="/" element={<HomePage />} />
       </Routes>
     </Router>

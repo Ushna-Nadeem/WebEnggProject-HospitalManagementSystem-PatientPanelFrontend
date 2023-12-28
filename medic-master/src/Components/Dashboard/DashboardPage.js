@@ -51,7 +51,7 @@ const DashboardPage = () => {
           />
           Test Results
         </Link>
-        <Link to="/dashboard/payment">
+        <Link to="/dashboard/billing&payment">
           <img
             className="option-icon"
             src="\images\payment.jpeg"

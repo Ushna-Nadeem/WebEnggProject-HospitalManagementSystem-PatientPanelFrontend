@@ -1,0 +1,152 @@
+/* Prescription Container Styles */
+.prescription-container {
+  margin: 25px;
+}
+
+h1.prescription-h1 {
+  text-align: center;
+  font-size: 34px;
+  color: rgb(45, 36, 36);
+  margin: 25px;
+}
+
+.prescription-list {
+  list-style: none;
+  padding: 0;
+}
+
+/* Prescription Item Styles */
+.prescription-item {
+  background-color: rgb(224, 192, 151);
+  box-shadow: 0 0 10px rgb(184, 92, 56);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 12px;
+  position: relative;
+  width: 40%;
+  display: inline-block; /* Display as inline-block to show boxes side by side */
+  box-sizing: border-box; /* Include padding and border in the box model */
+  margin-left: 80px;
+}
+
+.prescription-item strong {
+  color: rgb(184, 92, 56);
+  font-size: x-large;
+}
+
+.prescription-item p {
+  margin: 5px 0;
+  color: rgb(92, 61, 46);
+  font-weight: bold;
+  font-size: medium;
+  text-align: center;
+}
+
+/* Prescription Item Button Styles */
+.prescription-item button {
+  background-color: lightgray;
+  color: dimgray;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block; /* Make the button a block-level element */
+  margin: 0 auto; /* Auto margin for center alignment */
+}
+
+.prescription-item button:hover {
+  background-color: lemonchiffon;
+}
+
+/* Overlay Styles */
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(45, 36, 36, 0.8);
+  z-index: 1;
+}
+
+/* Refill Form Styles */
+.refill-form {
+  background-color: rgb(224, 192, 151);
+  padding: 20px;
+  border-radius: 12px;
+  width: 60%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.refill-form h2 {
+  color: rgb(45, 36, 36);
+}
+
+.refill-form label {
+  font-size: 15px;
+  display: block;
+  margin-bottom: 10px;
+  color: rgb(45, 36, 36);
+}
+
+.refill-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.refill-form button.submit {
+  background-color: green;
+  color: whitesmoke;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.refill-form button.submit:hover {
+  background-color: darkgreen;
+}
+
+.refill-form button.cancel {
+  background-color: maroon;
+  color: whitesmoke;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.refill-form button.cancel:hover {
+  background-color: darkred;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  .prescription-item {
+    width: 80%; /* Adjusted width for smaller screens */
+    display: block; /* Stack boxes on top of each other on smaller screens */
+    margin-left: auto; /* Center-align the boxes */
+    margin-right: auto;
+  }
+
+  .refill-form {
+    width: 80%;
+  }
+}
