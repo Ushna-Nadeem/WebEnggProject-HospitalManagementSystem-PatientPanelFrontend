@@ -23,7 +23,7 @@ const RegisterPage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/patients/register', {
+      const response = await fetch('https://webbackend-production-d36d.up.railway.app/patients/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

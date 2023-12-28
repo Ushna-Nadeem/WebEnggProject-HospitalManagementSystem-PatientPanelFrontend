@@ -36,7 +36,7 @@ const Profile = () => {
 
     if (token) {
       // Get Patient Profile
-      fetch(`http://localhost:3000/patients/profile`, {
+      fetch(`https://webbackend-production-d36d.up.railway.app/patients/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -49,7 +49,7 @@ const Profile = () => {
         .catch(error => console.error('Error fetching patient profile:', error));
 
       // Get Patient Medical History
-      fetch(`http://localhost:3000/patients/medical-history`, {
+      fetch(`https://webbackend-production-d36d.up.railway.app/patients/medical-history`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -64,7 +64,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch(`http://localhost:3000/patients/profile`, {
+      const response = await fetch(`https://webbackend-production-d36d.up.railway.app/patients/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ const Profile = () => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch(`http://localhost:3000/patients/medical-history`, {
+      const response = await fetch(`https://webbackend-production-d36d.up.railway.app/patients/medical-history`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const Profile = () => {
 
     if (confirmation) {
       try {
-        const response = await fetch(`http://localhost:3000/patients/profile`, {
+        const response = await fetch(`https://webbackend-production-d36d.up.railway.app/patients/profile`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

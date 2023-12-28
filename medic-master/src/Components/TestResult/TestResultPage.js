@@ -27,7 +27,7 @@ const TestResults = () => {
   // Function to fetch test results for a specific patient
   const fetchTestResults = async (patientId) => {
     try {
-      const response = await fetch(`http://localhost:3000/testresults/viewTestResults/${patientId}`);
+      const response = await fetch(`https://webbackend-production-d36d.up.railway.app/testresults/viewTestResults/${patientId}`);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch test results: ${response.statusText}`);

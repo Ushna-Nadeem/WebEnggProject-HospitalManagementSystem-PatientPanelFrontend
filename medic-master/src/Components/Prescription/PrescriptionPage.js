@@ -25,7 +25,7 @@ const PrescriptionComponent = () => {
   }, []);
 
   const fetchActivePrescriptions = async (patientId) => {
-    const response = await fetch(`http://localhost:3000/prescriptions/viewActive/${patientId}`);
+    const response = await fetch(`https://webbackend-production-d36d.up.railway.app/prescriptions/viewActive/${patientId}`);
 
     if (response.ok) {
       const data = await response.json();
@@ -55,7 +55,7 @@ const PrescriptionComponent = () => {
     }
   
     try {
-      const response = await fetch(`http://localhost:3000/prescriptions/requestRefill/${selectedPrescription._id}`, {
+      const response = await fetch(`https://webbackend-production-d36d.up.railway.app/prescriptions/requestRefill/${selectedPrescription._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

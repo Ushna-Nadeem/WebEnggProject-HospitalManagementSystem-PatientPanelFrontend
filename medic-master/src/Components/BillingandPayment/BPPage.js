@@ -42,7 +42,7 @@ const BillingPage = () => {
 
   const fetchAllBills = async (patientId) => {
     try {
-      const response = await axios.get(`http://localhost:3000/bills/${patientId}`);
+      const response = await axios.get(`https://webbackend-production-d36d.up.railway.app/bills/${patientId}`);
       setBills(response.data);
     } catch (error) {
       console.error('Error fetching all bills:', error);
@@ -51,7 +51,7 @@ const BillingPage = () => {
 
   const fetchPaidBills = async (patientId) => {
     try {
-      const response = await axios.get(`http://localhost:3000/bills/paid/${patientId}`);
+      const response = await axios.get(`https://webbackend-production-d36d.up.railway.app/bills/paid/${patientId}`);
       setPaidBills(response.data);
     } catch (error) {
       console.error('Error fetching paid bills:', error);
@@ -60,7 +60,7 @@ const BillingPage = () => {
 
   const fetchOutstandingBills = async (patientId) => {
     try {
-      const response = await axios.get(`http://localhost:3000/bills/outstanding/${patientId}`);
+      const response = await axios.get(`https://webbackend-production-d36d.up.railway.app/bills/outstanding/${patientId}`);
       setOutstandingBills(response.data);
     } catch (error) {
       console.error('Error fetching outstanding bills:', error);
@@ -142,7 +142,7 @@ const BillingPage = () => {
       const decodedToken = token ? JSON.parse(atob(token.split('.')[1])) : null;
       const patientId = decodedToken?.patientId;
   
-      const response = await axios.put(`http://localhost:3000/bills/payment/card/${patientId}`, {
+      const response = await axios.put(`https://webbackend-production-d36d.up.railway.app/bills/payment/card/${patientId}`, {
         billIds: selectedBills,
         ...cardInfo,
       });
@@ -208,7 +208,7 @@ const BillingPage = () => {
         // Handle error (show error message, etc.)
       } else {
         // Make a request to your backend to complete the payment using the PaymentMethod
-        const response = await axios.put(`http://localhost:3000/bills/payment/stripe/${patientId}`, {
+        const response = await axios.put(`https://webbackend-production-d36d.up.railway.app/bills/payment/stripe/${patientId}`, {
           billIds: selectedBills,
           paymentMethodId: paymentMethod.id,
         });

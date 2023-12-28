@@ -59,7 +59,7 @@ const Appointment = () => {
 
   const fetchAppointments = async (patientId) => {
     try {
-      const response = await fetch(`http://localhost:3000/appointments/view/${patientId}`, {
+      const response = await fetch(`https://webbackend-production-d36d.up.railway.app/appointments/view/${patientId}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -82,7 +82,7 @@ const Appointment = () => {
 
   const fetchAppointmentHistory = async (patientId) => {
     try {
-      const response = await fetch(`http://localhost:3000/appointments/viewhistory/${patientId}`, {
+      const response = await fetch(`https://webbackend-production-d36d.up.railway.app/appointments/viewhistory/${patientId}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -113,7 +113,7 @@ const Appointment = () => {
       }
 
       // Logic to book an appointment
-      const response = await fetch('http://localhost:3000/appointments/book', {
+      const response = await fetch('https://webbackend-production-d36d.up.railway.app/appointments/book', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ const Appointment = () => {
       }
 
       // Logic to cancel an appointment
-      const response = await fetch(`http://localhost:3000/appointments/cancel/${appointmentId}`, {
+      const response = await fetch(`https://webbackend-production-d36d.up.railway.app/appointments/cancel/${appointmentId}`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
