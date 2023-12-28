@@ -126,7 +126,7 @@ const Profile = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ confirmation: 'CONFIRM_DELETE' }),
+          body: JSON.stringify({ confirmation: 'CONFIRM' }),
         });
 
         if (response.ok) {
