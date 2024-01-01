@@ -77,6 +77,9 @@ const PrescriptionComponent = () => {
             updatedPrescriptions[updatedIndex] = {
               ...updatedPrescriptions[updatedIndex],
               refillsRemaining: updatedPrescriptions[updatedIndex].refillsRemaining - 1,
+              pharmacyName,
+              pharmacyAddress,
+              pharmacyPhone,
             };
           }
   
